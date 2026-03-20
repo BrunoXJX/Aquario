@@ -52,16 +52,16 @@ function ReservationItem({ reservation, isCurrent = false }) {
       <div className="reservation-info">
         <div className="reservation-company">{reservation.company_name}</div>
         <div className="reservation-person">
-          👤 {reservation.user_name}
+          {reservation.user_name}
           {reservation.user_email && (
             <span style={{ color: 'var(--gray-400)', marginLeft: 6 }}>· {reservation.user_email}</span>
           )}
         </div>
         {reservation.finalidade && (
-          <div className="reservation-purpose">📌 {reservation.finalidade}</div>
+          <div className="reservation-purpose">{reservation.finalidade}</div>
         )}
         {reservation.observacoes && (
-          <div className="reservation-purpose">💬 {reservation.observacoes}</div>
+          <div className="reservation-purpose" style={{opacity:0.7}}>{reservation.observacoes}</div>
         )}
       </div>
       {isCurrent && (
@@ -98,7 +98,7 @@ export default function Dashboard() {
 
   if (error) return (
     <div className="alert alert-error">
-      <span>⚠️</span>
+      <span>!</span>
       <div>
         <strong>Erro de ligação ao servidor.</strong>
         <div style={{ marginTop: 4, fontSize: 13 }}>{error}</div>
@@ -118,7 +118,7 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="page-header">
         <div className="page-header-text">
-          <h1>Bom dia, Dra. Fátima 👋</h1>
+          <h1>Bom dia, Dra. Fátima</h1>
           <p style={{ textTransform: 'capitalize' }}>{todayLabel} · {data.currentTime}</p>
         </div>
         <Link to="/admin/nova-reserva" className="btn btn-primary">
@@ -157,28 +157,45 @@ export default function Dashboard() {
           label="Reservas Hoje"
           sub="no Aquário"
           color="var(--primary)"
-          icon="📅"
+          icon={
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          }
         />
         <StatCard
           value={data.stats.totalSemana}
           label="Esta Semana"
           sub="próximos 7 dias"
           color="var(--accent)"
-          icon="📊"
+          icon={
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path d="M18 20V10M12 20V4M6 20v-6"/>
+            </svg>
+          }
         />
         <StatCard
           value={data.stats.totalMes}
           label="Este Mês"
           sub="total de reservas"
           color="var(--success)"
-          icon="📈"
+          icon={
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+            </svg>
+          }
         />
         <StatCard
           value={data.stats.totalEmpresas}
           label="Empresas Ativas"
           sub="na incubadora"
           color="var(--info)"
-          icon="🏢"
+          icon={
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
+            </svg>
+          }
         />
       </div>
 
@@ -199,7 +216,12 @@ export default function Dashboard() {
           <div className="card-body" style={{ padding: 16 }}>
             {data.todayReservations.length === 0 ? (
               <div className="empty-state" style={{ padding: '32px 16px' }}>
-                <div style={{ fontSize: 32, marginBottom: 12 }}>📭</div>
+                <div style={{ fontSize: 32, marginBottom: 12, color: 'var(--gray-300)' }}>
+                  <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                </div>
                 <h3>Sem reservas hoje</h3>
                 <p>O Aquário está disponível o dia todo.</p>
               </div>
@@ -231,7 +253,11 @@ export default function Dashboard() {
           <div className="card-body" style={{ padding: 16 }}>
             {data.upcoming.length === 0 ? (
               <div className="empty-state" style={{ padding: '32px 16px' }}>
-                <div style={{ fontSize: 32, marginBottom: 12 }}>🗓️</div>
+                <div style={{ fontSize: 32, marginBottom: 12, color: 'var(--gray-300)' }}>
+                  <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 16 14"/>
+                  </svg>
+                </div>
                 <h3>Sem reservas futuras</h3>
                 <p>Nenhuma reserva agendada.</p>
               </div>
@@ -253,9 +279,9 @@ export default function Dashboard() {
                     <div className="reservation-info">
                       <div className="reservation-company">{r.company_name}</div>
                       <div className="reservation-person">
-                        🕐 {r.hora_inicio} – {r.hora_fim} · {r.user_name}
+                        {r.hora_inicio} – {r.hora_fim} · {r.user_name}
                       </div>
-                      {r.finalidade && <div className="reservation-purpose">📌 {r.finalidade}</div>}
+                      {r.finalidade && <div className="reservation-purpose">{r.finalidade}</div>}
                     </div>
                   </div>
                 ))}
@@ -271,10 +297,10 @@ export default function Dashboard() {
           ＋ Nova Reserva
         </Link>
         <Link to="/admin/calendario" className="btn btn-outline">
-          📅 Ver Calendário
+          Ver Calendário
         </Link>
         <Link to="/admin/reservas" className="btn btn-ghost">
-          📋 Todas as Reservas
+          Todas as Reservas
         </Link>
       </div>
     </div>

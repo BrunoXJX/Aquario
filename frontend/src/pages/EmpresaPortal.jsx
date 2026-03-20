@@ -81,10 +81,10 @@ export default function EmpresaPortal() {
 
   const statusBadge = (estado) => {
     const cfg = {
-      'pendente': { cls: 'badge-pendente', label: '⏳ Pendente', desc: 'A aguardar confirmação' },
-      'confirmada': { cls: 'badge-confirmada', label: '✅ Confirmada', desc: '' },
-      'rejeitada': { cls: 'badge-rejeitada', label: '❌ Rejeitada', desc: '' },
-      'cancelada': { cls: 'badge-cancelada', label: '🚫 Cancelada', desc: '' },
+      'pendente': { cls: 'badge-pendente', label: 'Pendente', desc: 'A aguardar confirmação' },
+      'confirmada': { cls: 'badge-confirmada', label: 'Confirmada', desc: '' },
+      'rejeitada': { cls: 'badge-rejeitada', label: 'Rejeitada', desc: '' },
+      'cancelada': { cls: 'badge-cancelada', label: 'Cancelada', desc: '' },
     };
     const c = cfg[estado] || cfg['pendente'];
     return <span className={`badge ${c.cls}`}>{c.label}</span>;
@@ -122,23 +122,23 @@ export default function EmpresaPortal() {
           {/* Tabs */}
           <div className="empresa-tabs">
             <button className={`empresa-tab ${tab === 'reservar' ? 'active' : ''}`} onClick={() => setTab('reservar')}>
-              📅 Pedir Reserva
+              Pedir Reserva
             </button>
             <button className={`empresa-tab ${tab === 'minhas' ? 'active' : ''}`} onClick={() => setTab('minhas')}>
-              📋 Os Meus Pedidos {myReservations.length > 0 && <span className="empresa-tab-count">{myReservations.length}</span>}
+              Os Meus Pedidos {myReservations.length > 0 && <span className="empresa-tab-count">{myReservations.length}</span>}
             </button>
           </div>
 
           {tab === 'reservar' && (
             <div className="empresa-content">
               {/* Messages */}
-              {success && <div className="alert alert-success"><span>✅</span><div>{success}</div></div>}
-              {error && <div className="alert alert-error"><span>⚠️</span><div>{error}</div></div>}
+              {success && <div className="alert alert-success"><span>✓</span><div>{success}</div></div>}
+              {error && <div className="alert alert-error"><span>!</span><div>{error}</div></div>}
 
               <div className="empresa-form-grid">
                 {/* Form */}
                 <div className="card">
-                  <div className="card-header"><span className="card-title">📝 Solicitar Reserva</span></div>
+                  <div className="card-header"><span className="card-title">Solicitar Reserva</span></div>
                   <div className="card-body">
                     <form onSubmit={handleSubmit}>
                       <div className="form-group">
@@ -158,7 +158,7 @@ export default function EmpresaPortal() {
                         <input className="form-control" type="date" required value={form.data} min={today}
                           onChange={e => setForm({...form, data: e.target.value})} />
                         {form.data && isBlocked(form.data) && (
-                          <span className="form-error">⚠️ Esta data está bloqueada para reservas.</span>
+                          <span className="form-error">Esta data está bloqueada para reservas.</span>
                         )}
                       </div>
                       <div className="form-row">
@@ -191,7 +191,7 @@ export default function EmpresaPortal() {
                           placeholder="Ex: Necessário projetor" />
                       </div>
                       <button type="submit" className="btn btn-primary btn-lg" style={{width:'100%'}}>
-                        📩 Enviar Pedido de Reserva
+                        Enviar Pedido de Reserva
                       </button>
                       <p className="form-hint" style={{textAlign:'center', marginTop: 8}}>
                         O seu pedido será analisado pela administração AIRV.<br/>
@@ -203,21 +203,26 @@ export default function EmpresaPortal() {
 
                 {/* Occupied slots for selected date */}
                 <div className="card">
-                  <div className="card-header"><span className="card-title">🕐 Horários Ocupados {form.data && `(${form.data})`}</span></div>
+                  <div className="card-header"><span className="card-title">Horários Ocupados {form.data && `(${form.data})`}</span></div>
                   <div className="card-body">
                     {!form.data ? (
                       <div className="empty-state" style={{padding: '24px 16px'}}>
-                        <div style={{fontSize: 28, marginBottom: 8}}>📅</div>
+                        <div style={{fontSize: 28, marginBottom: 8, color:'var(--gray-300)'}}>
+                          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                          </svg>
+                        </div>
                         <h3>Selecione uma data</h3>
                         <p>Escolha a data no formulário para ver os horários já ocupados.</p>
                       </div>
                     ) : isBlocked(form.data) ? (
                       <div className="alert alert-error">
-                        <span>🚫</span><div>Esta data está bloqueada.</div>
+                        <span>!</span><div>Esta data está bloqueada.</div>
                       </div>
                     ) : getOccupiedSlots(form.data).length === 0 ? (
                       <div className="empty-state" style={{padding: '24px 16px'}}>
-                        <div style={{fontSize: 28, marginBottom: 8}}>✅</div>
+                        <div style={{fontSize: 28, marginBottom: 8, color:'var(--success)'}}>✓</div>
                         <h3>Aquário livre!</h3>
                         <p>Não há reservas confirmadas para esta data. O Aquário está completamente disponível.</p>
                       </div>
@@ -233,7 +238,7 @@ export default function EmpresaPortal() {
                             </div>
                             <div className="reservation-info">
                               <div className="reservation-company">{r.company_name}</div>
-                              {r.finalidade && <div className="reservation-purpose">📌 {r.finalidade}</div>}
+                              {r.finalidade && <div className="reservation-purpose">{r.finalidade}</div>}
                             </div>
                           </div>
                         ))}
@@ -248,11 +253,16 @@ export default function EmpresaPortal() {
           {tab === 'minhas' && (
             <div className="empresa-content">
               <div className="card">
-                <div className="card-header"><span className="card-title">📋 Os Meus Pedidos de Reserva</span></div>
+                <div className="card-header"><span className="card-title">Os Meus Pedidos de Reserva</span></div>
                 <div className="card-body">
                   {myReservations.length === 0 ? (
                     <div className="empty-state" style={{padding: '32px 16px'}}>
-                      <div style={{fontSize: 32, marginBottom: 12}}>📭</div>
+                      <div style={{fontSize: 32, marginBottom: 12, color:'var(--gray-300)'}}>
+                        <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+                          <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                      </div>
                       <h3>Sem pedidos</h3>
                       <p>A sua empresa ainda não fez nenhum pedido de reserva.</p>
                     </div>

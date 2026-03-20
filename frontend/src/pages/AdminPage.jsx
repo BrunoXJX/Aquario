@@ -45,11 +45,11 @@ function SettingsTab() {
   return (
     <div style={{ maxWidth: 560 }}>
       <h3 style={{ marginBottom: 20, color: 'var(--dark)', fontWeight: 700 }}>Configuração do Aquário</h3>
-      {error  && <div className="alert alert-error"><span>⚠️</span><span>{error}</span></div>}
+      {error  && <div className="alert alert-error"><span>!</span><span>{error}</span></div>}
       {saved  && <div className="alert alert-success"><span>✓</span><span>Configurações guardadas com sucesso.</span></div>}
       <form onSubmit={handleSave}>
         <div className="card">
-          <div className="card-header"><span className="card-title">🕐 Horário do Aquário</span></div>
+          <div className="card-header"><span className="card-title">Horário do Aquário</span></div>
           <div className="card-body">
             <div className="form-row">
               <div className="form-group">
@@ -89,7 +89,7 @@ function SettingsTab() {
         </div>
         <div style={{ marginTop: 16, display: 'flex', justifyContent: 'flex-end' }}>
           <button type="submit" className="btn btn-primary" disabled={saving}>
-            {saving ? '⏳ A guardar...' : '💾 Guardar Configurações'}
+            {saving ? 'A guardar...' : 'Guardar Configurações'}
           </button>
         </div>
       </form>
@@ -138,10 +138,10 @@ function BlockedDatesTab() {
     <div style={{ maxWidth: 560 }}>
       <h3 style={{ marginBottom: 20, color: 'var(--dark)', fontWeight: 700 }}>Datas Bloqueadas</h3>
       {toast && <div className="alert alert-success"><span>✓</span><span>{toast}</span></div>}
-      {error && <div className="alert alert-error"><span>⚠️</span><span>{error}</span></div>}
+      {error && <div className="alert alert-error"><span>!</span><span>{error}</span></div>}
 
       <div className="card" style={{ marginBottom: 20 }}>
-        <div className="card-header"><span className="card-title">🔒 Bloquear Nova Data</span></div>
+        <div className="card-header"><span className="card-title">Bloquear Nova Data</span></div>
         <div className="card-body">
           <form onSubmit={handleBlock}>
             <div className="form-row">
@@ -155,14 +155,14 @@ function BlockedDatesTab() {
               </div>
             </div>
             <button type="submit" className="btn btn-danger" disabled={loading || !newDate}>
-              {loading ? '⏳' : '🔒'} Bloquear Data
+              {loading ? '...' : ''} Bloquear Data
             </button>
           </form>
         </div>
       </div>
 
       <div className="card">
-        <div className="card-header"><span className="card-title">📋 Datas Bloqueadas ({blocked.length})</span></div>
+        <div className="card-header"><span className="card-title">Datas Bloqueadas ({blocked.length})</span></div>
         {blocked.length === 0 ? (
           <div className="empty-state"><p>Nenhuma data bloqueada.</p></div>
         ) : (
@@ -176,7 +176,7 @@ function BlockedDatesTab() {
                     <td style={{ color: 'var(--gray-600)' }}>{b.motivo || '—'}</td>
                     <td>
                       <button className="btn btn-ghost btn-sm" style={{ color: 'var(--success)' }} onClick={() => handleUnblock(b.id)}>
-                        🔓 Desbloquear
+                        Desbloquear
                       </button>
                     </td>
                   </tr>
@@ -225,7 +225,7 @@ function CompaniesTab() {
     <div>
       <h3 style={{ marginBottom: 20, color: 'var(--dark)', fontWeight: 700 }}>Gestão de Empresas</h3>
       {toast && <div className="alert alert-success"><span>✓</span><span>{toast}</span></div>}
-      {error && <div className="alert alert-error"><span>⚠️</span><span>{error}</span></div>}
+      {error && <div className="alert alert-error"><span>!</span><span>{error}</span></div>}
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20, alignItems: 'start' }}>
         <div className="card">
@@ -245,14 +245,14 @@ function CompaniesTab() {
                 <input className="form-control" placeholder="9XX XXX XXX" value={form.telefone} onChange={e => setForm(f => ({...f, telefone: e.target.value}))} />
               </div>
               <button type="submit" className="btn btn-primary w-full" disabled={loading || !form.nome}>
-                {loading ? '⏳' : '＋'} Criar Empresa
+                {loading ? '...' : '+'} Criar Empresa
               </button>
             </form>
           </div>
         </div>
 
         <div className="card">
-          <div className="card-header"><span className="card-title">🏢 Empresas Incubadas ({companies.length})</span></div>
+          <div className="card-header"><span className="card-title">Empresas Incubadas ({companies.length})</span></div>
           <div className="table-wrapper">
             <table className="table">
               <thead><tr><th>Empresa</th><th>Email</th><th>Telefone</th><th>Estado</th></tr></thead>
@@ -444,12 +444,12 @@ function PendingTab() {
         {data.count > 0 && <span className="badge badge-pendente" style={{ marginLeft: 10, fontSize: 13 }}>{data.count}</span>}
       </h3>
       {toast && <div className="alert alert-success"><span>✓</span><span>{toast}</span></div>}
-      {error && <div className="alert alert-error"><span>⚠️</span><span>{error}</span></div>}
+      {error && <div className="alert alert-error"><span>!</span><span>{error}</span></div>}
 
       {data.pending.length === 0 ? (
         <div className="card">
           <div className="empty-state">
-            <div style={{ fontSize: 32, marginBottom: 12 }}>✅</div>
+            <div style={{ fontSize: 32, marginBottom: 12, color: 'var(--success)' }}>✓</div>
             <h3>Nenhum pedido pendente</h3>
             <p>Todos os pedidos foram tratados. Bom trabalho, Dra. Fátima!</p>
           </div>
@@ -478,10 +478,10 @@ function PendingTab() {
                     <td>
                       <div style={{ display: 'flex', gap: 6 }}>
                         <button className="btn btn-sm" style={{ background: 'var(--success)', color: '#fff' }} onClick={() => handleConfirm(r.id)}>
-                          ✅ Confirmar
+                          Confirmar
                         </button>
                         <button className="btn btn-sm btn-danger" onClick={() => handleReject(r.id)}>
-                          ❌ Rejeitar
+                          Rejeitar
                         </button>
                       </div>
                     </td>
@@ -515,19 +515,19 @@ export default function AdminPage() {
           <p>Gestão completa do Aquário · AIRV Incubação</p>
         </div>
         <span className="badge" style={{ background: 'var(--accent-light)', color: 'var(--accent-dark)', padding: '6px 14px', fontSize: 12 }}>
-          ⭐ Administrador
+          Administrador
         </span>
       </div>
 
       {/* Admin Tabs */}
       <div className="admin-tabs">
         {[
-          { key: 'pending',     label: '📩 Pedidos Pendentes' },
-          { key: 'overview',    label: '📊 Visão Geral' },
-          { key: 'reservations',label: '📋 Reservas' },
-          { key: 'companies',   label: '🏢 Empresas' },
-          { key: 'blocked',     label: '🔒 Datas Bloqueadas' },
-          { key: 'settings',    label: '⚙️ Configurações' },
+          { key: 'pending',     label: 'Pedidos Pendentes' },
+          { key: 'overview',    label: 'Visão Geral' },
+          { key: 'reservations',label: 'Reservas' },
+          { key: 'companies',   label: 'Empresas' },
+          { key: 'blocked',     label: 'Datas Bloqueadas' },
+          { key: 'settings',    label: 'Configurações' },
         ].map(t => (
           <button key={t.key} className={`admin-tab${tab === t.key ? ' active' : ''}`} onClick={() => setTab(t.key)}>
             {t.label}
@@ -548,7 +548,7 @@ export default function AdminPage() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
                 <div className="card">
-                  <div className="card-header"><span className="card-title">🏆 Por Empresa</span></div>
+                  <div className="card-header"><span className="card-title">Por Empresa</span></div>
                   <div className="table-wrapper">
                     <table className="table">
                       <thead><tr><th>Empresa</th><th style={{ textAlign: 'right' }}>Reservas</th></tr></thead>
@@ -564,7 +564,7 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <div className="card">
-                  <div className="card-header"><span className="card-title">🕐 Atividade Recente</span></div>
+                  <div className="card-header"><span className="card-title">Atividade Recente</span></div>
                   <div style={{ padding: 16 }}>
                     {stats.recentActivity.slice(0, 6).map(r => (
                       <div key={r.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: '1px solid var(--gray-100)' }}>
